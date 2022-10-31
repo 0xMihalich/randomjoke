@@ -50,7 +50,7 @@ async def gen_cookies() -> dict:
             }
 
 
-async def main() -> Optional[str]:
+async def randomjoke() -> Optional[str]:
     async with ClientSession() as session:
         resp = await session.post(f'{site}generate.php', headers=headers, cookies=await gen_cookies())
         data = await resp.json(content_type='text/html')
@@ -62,4 +62,4 @@ async def main() -> Optional[str]:
 
 if __name__ == "__main__":
     from asyncio import run
-    print(run(main()))
+    print(run(randomjoke()))
