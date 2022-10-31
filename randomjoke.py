@@ -8,6 +8,7 @@ from typing import Tuple, Optional
 
 
 # Случайная шутка с сайта http://castlots.org/generator-anekdotov-online
+site = "http://castlots.org/generator-anekdotov-online/"
 
 
 headers={
@@ -16,9 +17,9 @@ headers={
         "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Host": "castlots.org",
-        "Origin": "http://castlots.org",
-        "Referer": "http://castlots.org/generator-anekdotov-online/",
+        "Host": site[7:19],
+        "Origin": site[:19],
+        "Referer": site,
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
         "X-Requested-With": "XMLHttpRequest"
         }
@@ -28,7 +29,7 @@ def return_timestamp() -> Tuple[str, ...]:
     return '{:.9f}'.format(time()).split('.')
 
 
-def randigits(n) -> int:
+def randigits(n: int) -> int:
     start = 10**(n-1)
     end = (10**n)-1
     return randint(start, end)
@@ -51,8 +52,7 @@ async def gen_cookies() -> dict:
 
 async def main() -> Optional[str]:
     async with ClientSession() as session:
-        resp = await session.post('http://castlots.org/generator-anekdotov-online/generate.php',
-                                                    headers=headers, cookies=await gen_cookies())
+        resp = await session.post(f'{site}generate.php', headers=headers, cookies=await gen_cookies())
         data = await resp.json(content_type='text/html')
     del resp
     if data['success']:
