@@ -59,7 +59,6 @@ async def randomjoke() -> Optional[str]:
         return data['va']
 
 
-
 if __name__ == "__main__":
     from asyncio import run
     print(run(randomjoke()))
